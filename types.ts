@@ -1,5 +1,5 @@
 export type URLProps = {
     id: string;
-    intialUrl: string;
+    initialURL: string;
     alias: string
 }

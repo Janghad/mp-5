@@ -16,7 +16,7 @@ export default async function getAliasById(
 
     const url = {
         id: urlData._id.toHexString(),
-        intialUrl: urlData.intialUrl,
+        initialURL: urlData.initialURL,
         alias: urlData.alias,
     };
 

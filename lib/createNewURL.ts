@@ -8,7 +8,7 @@ export default async function createNewURL(
     alias: string
 ): Promise<URLProps| string> {
     const u = {
-        intialUrl: url,
+        initialURL: url,
         alias: alias,
     };
     try {
