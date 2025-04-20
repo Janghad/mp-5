@@ -19,19 +19,6 @@ export default function NewUrlForm() {
     setError('');
 
     try{
-    const urlCheck = await fetch(url);
-    if (!urlCheck.ok || urlCheck.status >= 400) {
-    setError("Invalid URL. Please try a different URL.");
-    setIsLoading(false);
-    return;
-    }
-    } catch {
-        setError("Invalid URL. Please try a different URL.");
-        setIsLoading(false);
-        return;
-    }
-
-    try {
         const result = await createNewURL(url, alias);
 
         if (typeof result === 'string') {
@@ -44,7 +31,7 @@ export default function NewUrlForm() {
         }
     } catch (error) {
         console.error('Unable to create shortened URL:', error);
-        setError("Error creating shortened URL");
+        setError("result");
         setUrlProp(null);
     } finally {
         setIsLoading(false);
@@ -63,63 +50,69 @@ export default function NewUrlForm() {
     };
 
 return (
-    <Container maxWidth="md" className="bg-white drop-shadow-2xl rounded-xl mb-10">
-        <form 
-        style={{width: "90%", margin: "0 auto"}}
-        onSubmit={handleSubmit}
-        >
-        <h2 className="text-xl mt-6 mb-2">URL</h2>
-        <TextField
-            variant="filled"
-            sx={{backgroundColor: "white", width: "100%"}}
-            label="long url"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            disabled={isLoading}
-        />
-        
-        <h2 className="text-xl mt-2 mb-2">Custom Alias</h2>
-        <TextField
-            variant="filled"
-            sx={{backgroundColor: "white", width: "100%"}}
-            label="custom alias"
-            value={alias}
-            onChange={(e) => setAlias(e.target.value)}
-            disabled={isLoading}
-        />
-        
-        <div className="mt-6 mb-6">
-            <Button 
-            type="submit" 
-            variant="contained" 
-            sx={{width: "100%", backgroundColor: "purple"}}
-            disabled={isLoading || !url || !alias}
-            >
-            {isLoading ? "Loading..." : "Shorten"}
-            </Button> 
-        </div>
-        </form>
-        
-        <div className="flex justify-center mb-4">
-        {error? ( <div className="text-red-700 font-bold">{error}</div>
-        ) : (
-        urlProp && (
-        <div className="text-2xl text-black">
-            <div>
-                Your new url: <b>{`${window.location.origin}/${urlProp.alias}`}</b>
-                <Button 
-                variant="contained" 
-                color="primary" 
-                onClick={copyURL} 
-                sx={{ ml: 2, height: "30px" }}
-                >
-                Copy
-                </Button>
+    <div className="flex justify-center items-center bg-black" style = {{height: "100vh"}}>
+        <Container className="bg-white drop-shadow-2xl rounded-xl p-12">
+
+            <div className="text-center mb-6">
+                <h1 className="text-5xl font-bold text-blue-600 mb-4">URL Shortener</h1>
+                <p className = "text-base text-black">
+                    Please provide a URL to shorten along with an alias to create a sharable link
+                </p>
             </div>
-            </div>
-        )
+
+            <form className = "w-full" onSubmit={handleSubmit}>
+                <h2 className = "text-xl text-black mr-6 mb-2">URL</h2>
+                <TextField
+                    variant="filled"
+                    sx={{backgroundColor: "white", width: "100%"}}
+                    label="long url"
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                    disabled={isLoading}
+                />
+                
+                <h2 className="text-xl text-black mt-6 mb-2">Custom Alias</h2>
+                
+                <TextField
+                    variant="filled"
+                    sx={{backgroundColor: "white", width: "100%"}}
+                    label="custom alias"
+                    value={alias}
+                    onChange={(e) => setAlias(e.target.value)}
+                    disabled={isLoading}
+                />
+        
+                <div className="mt-6 mb-6">
+                <Button type="submit" variant="contained" sx={{width: "100%", backgroundColor: "blue"}} disabled={isLoading || !url || !alias}> 
+                    {isLoading ? "Loading..." : "Shorten"}
+                </Button> 
+                </div>
+        
+            </form>
+        
+            <div className="flex flex-col justify-center items-center mb-4">
+                {error? ( 
+                    <div className="text-red-700 font-bold">{error}</div>
+                ) : (
+                    urlProp && (
+                        <div className="text-center">
+                            <div className = "text-2x1 text-black mb-2"> Your shortened URL: </div> 
+                            <div className = "flex items-center justify-center space-x-4">
+                            <b className = "text-black font-bold">{`${window.location.origin}/${urlProp.alias}`}</b>
+                                <Button 
+                                variant="contained" 
+                                color="primary" 
+                                onClick={copyURL} 
+                                sx={{ height: "30px", fontSize: "0.75rem", padding: "4px 10px" }}
+                            >
+                            Copy
+                        </Button>
+                    </div>
+                </div>
+            )
         )}
         </div>
-    </Container>
+        </Container>
+        </div>
     );
 }

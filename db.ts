@@ -11,7 +11,7 @@ export const URLS_COLLECTION = "urls-collection";
 let client: MongoClient | null = null;
 let db: Db | null = null;
 
-async function connect(): Promise<DB> {
+async function connect(): Promise<Db> {
     if (!client) {
         client = new MongoClient(MONGO_URI);
         await client.connect();
