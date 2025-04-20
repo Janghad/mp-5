@@ -1,12 +1,10 @@
 import getAliasById from "@/lib/getAlias";;
 import { redirect } from "next/navigation";
 
-export default async function AliasPage( {
-    params, 
-}: {
-    params: {alias: string};
+export default async function AliasPage( {params,}: {
+    params: Promise<{alias: string}>;
 }) {
-    const {alias} = params;
+    const {alias} = await params; 
     const longUrl = await getAliasById(alias);
 
     if (!longUrl) {
